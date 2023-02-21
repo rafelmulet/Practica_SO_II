@@ -14,9 +14,6 @@ all: $(OBJS) $(PROGRAMS)
 $(PROGRAMS): $(LIBRARIES) $(INCLUDES)
 	$(CC) $(LDFLAGS) $(LIBRARIES) $@.o -o $@
 
-mi_mkfs: mi_mkfs.o $(LIBRARIES) $(INCLUDES)
-	$(CC) $(LDFLAGS) $(LIBRARIES) $< -o $@
-
 %.o: %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -o $@ -c $<
 

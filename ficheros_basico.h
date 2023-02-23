@@ -1,5 +1,6 @@
 /*
 INTEGRANTES DEL GRUPO QUE HAN PARTICIPADO
+- Coppola, Valentino
 - Frau Gordiola, Antoni
 - Mulet Serna, Rafel
 */

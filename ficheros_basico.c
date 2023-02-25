@@ -56,14 +56,24 @@ int initSB(unsigned int nbloques, unsigned int ninodos) {
 }
 
 int initMB() {
- //Calculamos los bits totales de metadatos y los pasamos a bytes
-    int tam= (tamMB()+tamAI()+tamSB)/8;
+ //Leemos el superbloque
+    struct superbloque SB;
+    bread(posSB, &SB);
+
+    int tamMB = SB.posUltimoBloqueMB - SB.posPrimerBloqueMB;
+    int tamAI = SB.posUltimoBloqueAI - SB.posPrimerBloqueAI;
+
+    //Calculamos los bits totales de metadatos y los pasamos a bytes
+    int tam= (tamMB+tamAI+tamSB)/8;
     //realizamos el modulo del tamaño total para saber el numero de 1's
     //del último bloque
     int mod= tam % 8;
 
     //declaramos el buffer
     unsigned char bufferMB[BLOCKSIZE];
+
+    //inicializamos el bloque a 0
+    memset(bufferMB, 0, BLOCKSIZE);
 
     //iteramos desde i=0 a i= tam haciendo la asignación de 1's
     for(int i =posSB;i<tam;i++){
@@ -73,10 +83,8 @@ int initMB() {
     for (int j = 0; j<mod; j++){
         buffer[tam]+=2^(7-j)
     }
-    //ponemos los bytes restantes del bloque a 0
-    for(int x=tam+1;x<BLOCKSIZE;x++){
-        buffer[x]=0;
-    }
+   
+    bwrite(,bufferMB)
 }
 
 int initAI() {

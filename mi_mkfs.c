@@ -38,6 +38,9 @@ int main(int argc, char **argv) {
     //Inicialización lista inodos libres
     initAI();
 
+    //Creación el directorio raíz
+    reservar_inodo('d', 7);
+
     //Cierre fichero
     bumount();
 

@@ -58,7 +58,7 @@ struct inodo {                                              // comprobar que ocu
     unsigned int numBloquesOcupados;                        // Cantidad de bloques ocupados zona de datos
     
     unsigned int punterosDirectos[12];                      // 12 punteros a bloques directos
-    unsigned int punterosIndirectos[3]; 
+    unsigned int punterosIndirectos[3];
     /* 3 punteros a bloques indirectos:
     1 indirecto simple, 1 indirecto doble, 1 indirecto triple */
 
@@ -73,6 +73,14 @@ int tamAI(unsigned int ninodos);
 int initSB(unsigned int nbloques, unsigned int ninodos);
 int initMB();
 int initAI();
+
+int escribir_bit(unsigned int nbloque, unsigned int bit);
+char leer_bit(unsigned int nbloque);
+int reservar_bloque();
+int liberar_bloque(unsigned int nbloque);
+int escribir_inodo(unsigned int ninodo, struct inodo *inodo);
+int leer_inodo(unsigned int ninodo, struct inodo *inodo);
+int reservar_inodo(unsigned char tipo, unsigned char permisos);
 
 //DECLARACION FUNCION EXTRA
 int potencia(int base, int exponente);

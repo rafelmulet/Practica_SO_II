@@ -18,11 +18,11 @@ int main(int argc, char **argv) {
         return FALLO;
     }
     nbloques = atoi(argv[2]);
-    if (nbloques  == 0) {
+    if (nbloques == 0) {
         printf("./mi_mkfs <nombre_dispositivo> <nbloques>\n");
         return FALLO;
     }
-    
+
     //Apertura i formateo del fichero
     bmount(argv[1]);
     for (int i = 0; i < nbloques; i++) {
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     initMB();
 
     //Inicialización lista inodos libres
-    initAI();
+    //initAI();
 
     //Cierre fichero
     bumount();

@@ -15,7 +15,7 @@ int tamMB(unsigned int nbloques) {
 }
 
 int tamAI(unsigned int ninodos) {
-    int tam = ninodos / (BLOCKSIZE / INODOSIZE);
+    int tam = (ninodos * INODOSIZE) / BLOCKSIZE;
     if ((ninodos * INODOSIZE) % BLOCKSIZE) tam++;
 
     return tam;
@@ -48,7 +48,6 @@ int initSB(unsigned int nbloques, unsigned int ninodos) {
 int initMB() {
     //Declaraciones variables auxiliares
     int bloque;
-    unsigned char bufferMB[BLOCKSIZE];
     
     //Leemos el superbloque
     struct superbloque SB;
@@ -56,19 +55,21 @@ int initMB() {
 
     //Calculamos los bits totales de metadatos
     int tamBits = tamSB + tamMB(SB.totBloques) + tamAI(SB.totInodos);
-    
-    //Ponemos a 1 los bloques completos    
-    memset(bufferMB, 255, sizeof(bufferMB));
-    for (bloque = 0; bloque < ((tamBits / 8) / BLOCKSIZE); bloque++) {
-        bwrite(SB.posPrimerBloqueMB + bloque, bufferMB);
+
+    //Ponemos a 1 los bloques completos 
+    unsigned char bufferBC[BLOCKSIZE];
+    memset(bufferBC, 255, sizeof(bufferBC));
+    for (bloque = 0; bloque < (tamBits / 8 / BLOCKSIZE); bloque++) {
+        bwrite(SB.posPrimerBloqueMB + bloque, bufferBC);
     }
 
     //Declaramos un buffer en el que escribiremos el número de 1s
     //correspondiente
+    unsigned char bufferMB[BLOCKSIZE];
     memset(bufferMB, 0, sizeof(bufferMB));
 
     //Escribimos a 1 los bytes ocupados
-    for (int i = 0; i < (tamBits / 8); i++) {
+    for (int i = 0; i < ((tamBits / 8) - (BLOCKSIZE * bloque)); i++) {
         bufferMB[i] = 255;
     }
     //Escribimos los últimos bits del módulo

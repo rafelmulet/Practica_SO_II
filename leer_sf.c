@@ -36,8 +36,19 @@ int main(int argc, char **argv) {
     printf ("sizeof struct superbloque: %lu\n", sizeof(struct superbloque));
     printf ("sizeof struct inodo: %lu\n\n", sizeof(struct inodo));
 
-    printf("RECORRIDO LISTA ENLAZADA DE INODOS LIBRES\n");
-    //**************************************************//
+    printf("RECORRIDO LISTA ENLAZADA DE INODOS LIBRES\nLEIL.txt\n");
+    struct inodo inodos[BLOCKSIZE/INODOSIZE];
+    FILE* fichero;
+    fichero = fopen("LEIL.txt", "wt");
+    for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) {
+        bread(i, inodos);
+
+        for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) {
+            fprintf(fichero, "%d \t", inodos[j].punterosDirectos[0]);
+        }
+        fprintf(fichero, "\n");
+    }
+    fclose(fichero);
 
     bumount();
 }

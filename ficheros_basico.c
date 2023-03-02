@@ -88,11 +88,32 @@ int initMB() {
 }
 
 int initAI() {
-    //Leemos el superbloque
+    //Declaramos los struct superbloque y el array de inodos
     struct superbloque SB;
+    struct inodo inodos[BLOCKSIZE/INODOSIZE];
+
+    //Leemos el superbloque
     bread(posSB, &SB);
 
-    //**************************************************************//
+    int contInodos = SB.posPrimerInodoLibre + 1;
+
+    for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) {
+        bread(i, inodos);
+
+        for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) {
+            inodos[j].tipo = 'l';
+
+            if (contInodos < SB.totInodos) {
+                inodos[j].punterosDirectos[0] = contInodos;
+                contInodos++;
+            } else {
+                inodos[j].punterosDirectos[0] = UINT_MAX;
+                j = BLOCKSIZE / INODOSIZE;
+            }
+        }
+
+        bwrite(i, inodos);
+    }
     
     return EXITO;
 }

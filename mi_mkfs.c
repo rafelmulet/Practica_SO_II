@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     initMB();
 
     //Inicialización lista inodos libres
-    //initAI();
+    initAI();
 
     //Cierre fichero
     bumount();

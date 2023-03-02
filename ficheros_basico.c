@@ -22,71 +22,81 @@ int tamAI(unsigned int ninodos) {
 }
 
 int initSB(unsigned int nbloques, unsigned int ninodos) {
-    
     //Creacion del superbloque
     struct superbloque SB;
 
-    //Posición del primer bloque del mapa de bits
+    //Damos el valor correspondientes a todo el contenido del superbloque
     SB.posPrimerBloqueMB = posSB + tamSB;
-    //Posición del último bloque del mapa de bits
     SB.posUltimoBloqueMB = SB.posPrimerBloqueMB + tamMB(nbloques) - 1;
-    //Posición del primer bloque del array de inodos
     SB.posPrimerBloqueAI = SB.posUltimoBloqueMB + 1;
-    //Posición del último bloque del array de inodos
     SB.posUltimoBloqueAI = SB.posPrimerBloqueAI + tamAI(ninodos) - 1;
-    //Posición del primer bloque de datos
     SB.posPrimerBloqueDatos = SB.posUltimoBloqueAI + 1;
-    //Posición del último bloque de datos
     SB.posUltimoBloqueDatos = nbloques - 1;
-    //Posición del inodo del directorio raíz en el array de inodos
     SB.posInodoRaiz = 0;
-    //Posición del primer inodo libre en el array de inodos
     SB.posPrimerInodoLibre = 0;
-    //Cantidad de bloques libres en el SF
     SB.cantBloquesLibres = nbloques;
-    //Cantidad de inodos libres en el array de inodos
     SB.cantInodosLibres = ninodos;
-    //Cantidad total de bloques
     SB.totBloques = nbloques;
-    //Cantidad total de inodos
     SB.totInodos = ninodos;
-    
+
     //Para finalizar, escribimos la estructura en el bloque posSB con bwrite()
     bwrite(posSB, &SB);
+
+    return EXITO;
 }
 
 int initMB() {
- //Leemos el superbloque
+    //Declaraciones variables auxiliares
+    int bloque;
+    unsigned char bufferMB[BLOCKSIZE];
+    
+    //Leemos el superbloque
     struct superbloque SB;
     bread(posSB, &SB);
 
-    int tamMB = SB.posUltimoBloqueMB - SB.posPrimerBloqueMB;
-    int tamAI = SB.posUltimoBloqueAI - SB.posPrimerBloqueAI;
-
-    //Calculamos los bits totales de metadatos y los pasamos a bytes
-    int tam= (tamMB+tamAI+tamSB)/8;
-    //realizamos el modulo del tamaño total para saber el numero de 1's
-    //del último bloque
-    int mod= tam % 8;
-
-    //declaramos el buffer
-    unsigned char bufferMB[BLOCKSIZE];
-
-    //inicializamos el bloque a 0
-    memset(bufferMB, 0, BLOCKSIZE);
-
-    //iteramos desde i=0 a i= tam haciendo la asignación de 1's
-    for(int i =posSB;i<tam;i++){
-        buffer[i]=255;
+    //Calculamos los bits totales de metadatos
+    int tamBits = tamSB + tamMB(SB.totBloques) + tamAI(SB.totInodos);
+    
+    //Ponemos a 1 los bloques completos    
+    memset(bufferMB, 255, sizeof(bufferMB));
+    for (bloque = 0; bloque < ((tamBits / 8) / BLOCKSIZE); bloque++) {
+        bwrite(SB.posPrimerBloqueMB + bloque, bufferMB);
     }
-    //para el último byte asignamos 1's solo a los bits que corresponden
-    for (int j = 0; j<mod; j++){
-        buffer[tam]+=2^(7-j)
+
+    //Declaramos un buffer en el que escribiremos el número de 1s
+    //correspondiente
+    memset(bufferMB, 0, sizeof(bufferMB));
+
+    //Escribimos a 1 los bytes ocupados
+    for (int i = 0; i < (tamBits / 8); i++) {
+        bufferMB[i] = 255;
     }
-   
-    bwrite(,bufferMB)
+    //Escribimos los últimos bits del módulo
+    for (int j = 0; j < (tamBits % 8); j++) {
+        bufferMB[tamBits / 8] += potencia(2, 7 - j);
+    }
+
+    //Escribimos el buffer en el bloque correspondiente
+    bwrite(SB.posPrimerBloqueMB + bloque, bufferMB);
+
+    //Reescribimos el superbloque actualizado
+    SB.cantBloquesLibres -= tamBits;
+    bwrite(posSB, &SB);
+
+    return EXITO;
 }
 
 int initAI() {
+    //Leemos el superbloque
+    struct superbloque SB;
+    bread(posSB, &SB);
 
+    //**************************************************************//
+    
+    return EXITO;
+}
+
+int potencia(int base, int exponente) {
+    if (exponente <= 0) return 1;
+    return base * potencia(base, exponente - 1);
 }

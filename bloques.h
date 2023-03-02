@@ -16,8 +16,8 @@ INTEGRANTES DEL GRUPO QUE HAN PARTICIPADO
 
 //DECLARACIONES CONSTANTES
 #define BLOCKSIZE 1024              // bytes
-#define EXITO 0                     // para gestión errores
-#define FALLO -1                    // para gestión errores
+#define EXITO 0                     // gestión errores
+#define FALLO -1                    // gestión errores
 
 //DECLARACION FUNCIONES
 int bmount(const char *camino);

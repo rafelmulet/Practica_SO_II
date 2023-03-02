@@ -10,6 +10,8 @@ INTEGRANTES DEL GRUPO QUE HAN PARTICIPADO
 
 //INCLUDES DE LIBRERIAS
 #include <time.h>                                           // time_t
+#include <math.h>                                           // pow()
+#include <limits.h>
 
 //DECLARACIONES CONSTANTES
 #define posSB 0                                             // el superbloque se escribe en el primer bloque de nuestro FS
@@ -71,3 +73,6 @@ int tamAI(unsigned int ninodos);
 int initSB(unsigned int nbloques, unsigned int ninodos);
 int initMB();
 int initAI();
+
+//DECLARACION FUNCION EXTRA
+int potencia(int base, int exponente);

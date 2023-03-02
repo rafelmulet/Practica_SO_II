@@ -8,11 +8,11 @@ INTEGRANTES DEL GRUPO QUE HAN PARTICIPADO
 #include "ficheros_basico.h"
 
 int main(int argc, char **argv) {
-    unsigned char *buffer[BLOCKSIZE];
+    unsigned char buffer[BLOCKSIZE];
     memset(buffer, 0, sizeof(buffer));
     int nbloques;
 
-    //sintaxis
+    //Comprobar sintaxis
     if (argc != 3) {
         printf("./mi_mkfs <nombre_dispositivo> <nbloques>\n");
         return FALLO;
@@ -23,10 +23,22 @@ int main(int argc, char **argv) {
         return FALLO;
     }
     
+    //Apertura i formateo del fichero
     bmount(argv[1]);
     for (int i = 0; i < nbloques; i++) {
         bwrite(i, buffer);
     }
+
+    //Inicialización superbloque
+    initSB(nbloques, nbloques/4);
+
+    //Inicialización mapa de bits
+    initMB();
+
+    //Inicialización lista inodos libres
+    initAI();
+
+    //Cierre fichero
     bumount();
 
     return EXITO;

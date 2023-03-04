@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     
     struct superbloque SB;
     bread(posSB, &SB);
-    /*
+    
     printf("\nDATOS DEL SUPERBLOQUE\n");
     printf("posPrimerBloqueMB = %d\n", SB.posPrimerBloqueMB);
     printf("posUltimoBloqueMB = %d\n", SB.posUltimoBloqueMB);
@@ -32,11 +32,10 @@ int main(int argc, char **argv) {
     printf("cantInodosLibres = %d\n", SB.cantInodosLibres);
     printf("totBloques = %d\n", SB.totBloques);
     printf("totInodos = %d\n\n", SB.totInodos);
-
     printf ("sizeof struct superbloque: %lu\n", sizeof(struct superbloque));
     printf ("sizeof struct inodo: %lu\n", sizeof(struct inodo));
-    */
-    /*
+    
+    
     printf("\nRECORRIDO LISTA ENLAZADA DE INODOS LIBRES\nLEIL.txt\n");
     struct inodo inodos[BLOCKSIZE/INODOSIZE];
     FILE* fichero;
@@ -50,8 +49,8 @@ int main(int argc, char **argv) {
         fprintf(fichero, "\n");
     }
     fclose(fichero);
-    */
-    /*
+    
+    
     printf("\nRESERVAMOS UN BLOQUE Y LUEGO LO LIBERAMOS\n");
     int bloqueReservado = reservar_bloque();
     printf("Se ha reservado el bloque físico nº %d que era el 1º libre indicado por el MB\n", bloqueReservado);
@@ -60,8 +59,8 @@ int main(int argc, char **argv) {
     liberar_bloque(bloqueReservado);
     bread(posSB, &SB);
     printf("Liberamos ese bloque y después SB.cantBloquesLibres = %d\n", SB.cantBloquesLibres);
-    */
-    /*
+    
+    
     printf("\nMAPA DE BITS CON BLOQUES DE METADATOS OCUPADOS\n");
     printf("posSB: %d -> leer_bit(%d) = %d\n", posSB, posSB, leer_bit(posSB));
     printf("SB.posPrimerBloqueMB: %d -> leer_bit(%d) = %d\n", SB.posPrimerBloqueMB, SB.posPrimerBloqueMB, leer_bit(SB.posPrimerBloqueMB));
@@ -70,7 +69,7 @@ int main(int argc, char **argv) {
     printf("SB.posUltimoBloqueAI: %d -> leer_bit(%d) = %d\n", SB.posUltimoBloqueAI, SB.posUltimoBloqueAI, leer_bit(SB.posUltimoBloqueAI));
     printf("SB.posPrimerBloqueDatos: %d  -> leer_bit(%d) = %d\n", SB.posPrimerBloqueDatos, SB.posPrimerBloqueDatos, leer_bit(SB.posPrimerBloqueDatos));
     printf("SB.posUltimoBloqueDatos: %d  -> leer_bit(%d) = %d\n", SB.posUltimoBloqueDatos, SB.posUltimoBloqueDatos, leer_bit(SB.posUltimoBloqueDatos));
-    */
+
     
     printf("\nDATOS DEL DIRECTORIO RAIZ\n");
     struct tm *ts;

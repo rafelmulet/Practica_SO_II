@@ -225,11 +225,11 @@ int escribir_inodo(unsigned int ninodo, struct inodo *inodo) {
     
     int bloqueInodo = ninodo / (BLOCKSIZE / INODOSIZE);
     struct inodo inodos[BLOCKSIZE/INODOSIZE];
-    bread(bloqueInodo, inodos);
+    bread(SB.posPrimerBloqueAI + bloqueInodo, inodos);
 
     inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = *inodo;
 
-    bwrite(bloqueInodo, inodos);
+    bwrite(SB.posPrimerBloqueAI + bloqueInodo, inodos);
 
     return EXITO;
 }
@@ -254,6 +254,7 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos) {
     if (SB.cantInodosLibres == 0) return FALLO;
 
     struct inodo inodoAux;
+
     int posInodoReservado = SB.posPrimerInodoLibre;
     leer_inodo(posInodoReservado, &inodoAux);
     
@@ -268,11 +269,11 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos) {
     inodoAux.mtime = time(NULL);
     inodoAux.numBloquesOcupados = 0;
     
-    for (int i = 0; i < (sizeof(inodoAux.punterosDirectos) / sizeof(int)); i++) {
+    for (int i = 0; i < (sizeof(inodoAux.punterosDirectos) / sizeof(unsigned int)); i++) {
         inodoAux.punterosDirectos[i] = 0;
     }
 
-    for (int i = 0; i < (sizeof(inodoAux.punterosIndirectos) / sizeof(int)); i++) {
+    for (int i = 0; i < (sizeof(inodoAux.punterosIndirectos) / sizeof(unsigned int)); i++) {
         inodoAux.punterosIndirectos[i] = 0;
     }
 

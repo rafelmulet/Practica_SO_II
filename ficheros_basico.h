@@ -84,3 +84,4 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos);
 
 //DECLARACION FUNCION EXTRA
 int potencia(int base, int exponente);
+void mostrarInodo(struct inodo inodo);

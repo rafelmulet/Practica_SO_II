@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
         bread(i, inodos);
 
         for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) {
-            fprintf(fichero, "%d \t", inodos[j].punterosDirectos[0]);
+            fprintf(fichero, "%d\t", inodos[j].punterosDirectos[0]);
         }
         fprintf(fichero, "\n");
     }

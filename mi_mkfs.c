@@ -25,9 +25,7 @@ int main(int argc, char **argv) {
 
     //Apertura i formateo del fichero
     bmount(argv[1]);
-    for (int i = 0; i < nbloques; i++) {
-        bwrite(i, buffer);
-    }
+    for (int i = 0; i < nbloques; i++) bwrite(i, buffer);
 
     //Inicialización superbloque
     initSB(nbloques, nbloques/4);

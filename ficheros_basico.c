@@ -56,7 +56,7 @@ int initMB() {
     //Calculamos los bits totales de metadatos
     int tamBits = tamSB + tamMB(SB.totBloques) + tamAI(SB.totInodos);
 
-    //Ponemos a 1 los bloques completos 
+    //Ponemos a 1 los bloques completos
     unsigned char bufferBC[BLOCKSIZE];
     memset(bufferBC, 255, sizeof(bufferBC));
     for (bloque = 0; bloque < (tamBits / 8 / BLOCKSIZE); bloque++) {
@@ -282,6 +282,18 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos) {
     bwrite(posSB, &SB);
 
     return posInodoReservado;
+}
+
+int obtener_nRangoBL(struct inodo *inodo, unsigned int nblogico, unsigned int *ptr) {
+    return EXITO;
+}
+
+int obtener_indice(unsigned int nblogico, int nivel_punteros) {
+    return EXITO;
+}
+
+int traducir_bloque_inodo(struct inodo *ninodo, unsigned int nblogico, unsigned char reservar) {
+    return EXITO;
 }
 
 //FUNCION EXTRA
